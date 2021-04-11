@@ -8,12 +8,12 @@ def show_image(img):
 
 
 # Reading The Train Set
-train_images_file = open('train-images-idx3-ubyte', 'rb')
+train_images_file = open('samples/train-images-idx3-ubyte', 'rb')
 train_images_file.seek(4)
 num_of_train_images = int.from_bytes(train_images_file.read(4), 'big')
 train_images_file.seek(16)
 
-train_labels_file = open('train-labels-idx1-ubyte', 'rb')
+train_labels_file = open('samples/train-labels-idx1-ubyte', 'rb')
 train_labels_file.seek(8)
 
 train_set = []
@@ -30,10 +30,10 @@ for n in range(num_of_train_images):
 
 
 # Reading The Test Set
-test_images_file = open('t10k-images-idx3-ubyte', 'rb')
+test_images_file = open('samples/t10k-images-idx3-ubyte', 'rb')
 test_images_file.seek(4)
 
-test_labels_file = open('t10k-labels-idx1-ubyte', 'rb')
+test_labels_file = open('samples/t10k-labels-idx1-ubyte', 'rb')
 test_labels_file.seek(8)
 
 num_of_test_images = int.from_bytes(test_images_file.read(4), 'big')

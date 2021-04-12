@@ -64,8 +64,6 @@ for n in range(num_of_test_images):
 Bl0=np.zeros((16,1))
 # b0
 Al0= np.random.normal(loc=0, scale=1, size=(16, 28*28))
-sample = np.random.normal(loc=0, scale=1, size=(16, 5*5))
-print(sample)
 Al0
 acc=0
 a=[]
@@ -74,7 +72,6 @@ for i in range (100):
     for j in range(28*28):
         a.append(train_set[i][0][j]) 
     Al0= np.random.normal(loc=0, scale=1, size=(16, 28*28))
-    
     a0=np.asarray(a) 
 #     print(a0[550])
     a1=Al0@a0+Bl0
@@ -98,9 +95,9 @@ for i in range (100):
             num=z[k]
             x=k
     if train_set[i][1][x]==1:
-        #print(z[x])
+#         print(z[x])
         print(i)
         acc+=1
       
                 
-print(f"Accuracy: {acc}%")
+acc/100

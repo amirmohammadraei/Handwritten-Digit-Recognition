@@ -53,5 +53,54 @@ for n in range(num_of_test_images):
 
 
 # Plotting an image
-show_image(train_set[0][0])
-plt.show()
+#show_image(train_set[85][0])
+#plt.show()
+
+
+
+
+
+# first step
+Bl0=np.zeros((16,1))
+# b0
+Al0= np.random.normal(loc=0, scale=1, size=(16, 28*28))
+sample = np.random.normal(loc=0, scale=1, size=(16, 5*5))
+print(sample)
+Al0
+acc=0
+a=[]
+for i in range (100):
+    a=[]
+    for j in range(28*28):
+        a.append(train_set[i][0][j]) 
+    Al0= np.random.normal(loc=0, scale=1, size=(16, 28*28))
+    
+    a0=np.asarray(a) 
+#     print(a0[550])
+    a1=Al0@a0+Bl0
+    #print(a1.shape)
+    a1= 1/(1 + np.exp(-a1))
+#     print(a1)
+    Al1=np.random.normal(loc=0, scale=1, size=(16, 16))
+    Bl1=np.zeros((16,1))
+    a2=Al1@a1+Bl1
+    a2= 1/(1 + np.exp(-a2))
+#     print(a2)
+    Al2=np.random.normal(loc=0, scale=1, size=(10, 16))
+    Bl2=np.zeros((10,1))
+    a3=Al2@a2+Bl2
+    z = 1/(1 + np.exp(-a3))
+#     print(z)
+    x=0
+    num=0
+    for k in range (10):
+        if z[k]>num:
+            num=z[k]
+            x=k
+    if train_set[i][1][x]==1:
+        #print(z[x])
+        print(i)
+        acc+=1
+      
+                
+print(f"Accuracy: {acc}%")

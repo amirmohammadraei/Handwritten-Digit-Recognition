@@ -78,7 +78,7 @@ b3 = np.zeros((10,1))
 
 batch_size = 10
 learning_rate = 1
-count_epoch = 20
+count_epoch = 200
 
 
 for i in range(count_epoch):
@@ -117,8 +117,8 @@ for i in range(count_epoch):
             gw1 += ga1 * sigmoid_deriv(z2) @ np.transpose(main_mtx)
 
             
-            ga2 = np.matmul(np.transpose(w3), 2 * (f_mtx - y) * sigmoid_deriv(z3))
-            ga1 = np.matmul(np.transpose(w2), ga2 * sigmoid_deriv(z2)) 
+            ga2 = np.transpose(w3) @ (2 * (f_mtx - y) * sigmoid_deriv(z3))
+            ga1 = np.transpose(w2) @ (ga2 * sigmoid_deriv(z2))
 
             gb3 += (2 * (f_mtx - y) * sigmoid_deriv(z3))
             gb2 += (ga2 * sigmoid_deriv(z2))

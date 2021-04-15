@@ -23,12 +23,12 @@ def multiply_mtx(w, mtx, b):
 
 
 # Reading The Train Set
-train_images_file = open('samples/train-images-idx3-ubyte', 'rb')
+train_images_file = open('/Users/amiroo/Desktop/Handwritten-Digit-Recognition/samples/train-images-idx3-ubyte', 'rb')
 train_images_file.seek(4)
 num_of_train_images = int.from_bytes(train_images_file.read(4), 'big')
 train_images_file.seek(16)
 
-train_labels_file = open('samples/train-labels-idx1-ubyte', 'rb')
+train_labels_file = open('/Users/amiroo/Desktop/Handwritten-Digit-Recognition/samples/train-labels-idx1-ubyte', 'rb')
 train_labels_file.seek(8)
 
 train_set = []
@@ -45,10 +45,10 @@ for n in range(num_of_train_images):
 
 
 # Reading The Test Set
-test_images_file = open('samples/t10k-images-idx3-ubyte', 'rb')
+test_images_file = open('/Users/amiroo/Desktop/Handwritten-Digit-Recognition/samples/t10k-images-idx3-ubyte', 'rb')
 test_images_file.seek(4)
 
-test_labels_file = open('samples/t10k-labels-idx1-ubyte', 'rb')
+test_labels_file = open('/Users/amiroo/Desktop/Handwritten-Digit-Recognition/samples/t10k-labels-idx1-ubyte', 'rb')
 test_labels_file.seek(8)
 
 num_of_test_images = int.from_bytes(test_images_file.read(4), 'big')
@@ -67,7 +67,7 @@ for n in range(num_of_test_images):
     test_set.append((image, label))
 
 
-# Third step
+# Fourth step
 w1 = np.random.normal(loc=0, scale=1, size=(16, 28*28))
 w2 = np.random.normal(loc=0, scale=1, size=(16, 16))
 w3 = np.random.normal(loc=0, scale=1, size=(10, 16))
@@ -101,12 +101,12 @@ for i in range(count_epoch):
         
         for b in range(batch_size):
             main_mtx = np.asarray(train_set[i * batch_size + b][0])
-            z2 = w1 @ main_mtx + b1
-            mtx2 = sigmoid(z2)
-            z3 = w2 @ mtx2 + b2
+            z1 = w1 @ main_mtx + b1
+            mtx2 = sigmoid(z1)
+            z2 = w2 @ mtx2 + b2
             mtx3 = sigmoid(z2) 
             z3 = w3 @ mtx3 + b3
-            f_mtx = sigmoid(z3)  
+            f_mtx = sigmoid(z3) 
 
             cost += sum((f_mtx - train_set[i * batch_size + b][1]) ** 2)
 
@@ -128,7 +128,7 @@ for i in range(count_epoch):
             max_value = np.max(f_mtx)
             index_max_value = np.argmax(f_mtx)
 
-            if train_set[i*batch_size + b][1][index_max_value] == 1:
+            if train_set[i * batch_size + b][1][index_max_value] == 1:
                 accuracy += 1
 
         w1 = w1 - (learning_rate * (gw1 / batch_size))

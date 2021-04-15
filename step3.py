@@ -78,7 +78,7 @@ b3 = np.zeros((10,1))
 
 batch_size = 10
 learning_rate = 1
-count_epoch = 200
+count_epoch = 20
 
 
 for i in range(count_epoch):

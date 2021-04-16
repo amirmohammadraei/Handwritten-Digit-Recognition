@@ -64,13 +64,13 @@ for n in range(num_of_test_images):
 
 
 # Second step
-w0 = np.random.normal(loc=0, scale=1, size=(16, 28*28))
-w1 = np.random.normal(loc=0, scale=1, size=(16, 16))
-w2 = np.random.normal(loc=0, scale=1, size=(10, 16))
+w1 = np.random.normal(loc=0, scale=1, size=(16, 28*28))
+w2 = np.random.normal(loc=0, scale=1, size=(16, 16))
+w3 = np.random.normal(loc=0, scale=1, size=(10, 16))
 
-b0 = np.zeros((16,1))
 b1 = np.zeros((16,1))
-b2 = np.zeros((10,1))
+b2 = np.zeros((16,1))
+b3 = np.zeros((10,1))
 
 accuracy = 0
 
@@ -79,9 +79,9 @@ for i in range(0, 100):
     for j in range(28*28):
         main_mtx.append(train_set[i][0][j]) 
     main_mtx = np.asarray(main_mtx)
-    mtx1 = sigmoid(multiply_mtx(w0, main_mtx, b0))
-    mtx2 = sigmoid(multiply_mtx(w1, mtx1, b1))
-    f_mtx = sigmoid(multiply_mtx(w2, mtx2, b2))
+    mtx2 = sigmoid(multiply_mtx(w1, main_mtx, b1))
+    mtx3 = sigmoid(multiply_mtx(w2, mtx2, b2))
+    f_mtx = sigmoid(multiply_mtx(w3, mtx3, b3))
     
     max_value = np.max(f_mtx)
     index_max_value = np.argmax(f_mtx)

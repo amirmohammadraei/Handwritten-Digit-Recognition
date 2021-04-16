@@ -17,9 +17,11 @@ def sigmoid_deriv(seq):
     return sigmoid(seq) * (1 - sigmoid(seq))
 
 
-def multiply_mtx(w, mtx, b):
-    result = w @ mtx + b
-    return result
+def show_cost(step_number, epoch_count, costs):
+    plt.title("Step" + str(step_number))
+    x = np.arange(0,epoch_count)
+    plt.plot(x, costs)
+    plt.savefig(f"/Users/amiroo/Desktop/Handwritten-Digit-Recognition/costs/cost{step_number}.png")
 
 
 # Reading The Train Set
@@ -80,13 +82,13 @@ batch_size = 10
 learning_rate = 1
 count_epoch = 200
 
-
+costs = []
 for i in range(count_epoch):
 
     accuracy = 0
     cost = 0
 
-    np.random.shuffle(train_set)
+    # np.random.shuffle(train_set)
     b_size = int(100 / batch_size)
 
     for i in range(b_size):
@@ -99,8 +101,8 @@ for i in range(count_epoch):
         ga2 = np.zeros((16, 1))
         ga1 = np.zeros((16, 1))
         
-        for j in range(batch_size):
-            element_num = i * batch_size + j
+        for r in range(batch_size):
+            element_num = i * batch_size + r
             main_mtx = np.asarray(train_set[element_num][0])
             z1 = w1 @ main_mtx + b1
             mtx2 = sigmoid(z1)
@@ -136,7 +138,8 @@ for i in range(count_epoch):
         b2 = b2 - (learning_rate * (gb2 / batch_size))
         b3 = b3 - (learning_rate * (gb3 / batch_size))
 
-    # costs.append(cost/100)
+    costs.append(cost/100)
     #print("Accuracy after epoch.", n+1, "is", accuracy/100, "%")
 
 print(f"Accuracy is: {accuracy}%")
+show_cost(4, count_epoch, costs)

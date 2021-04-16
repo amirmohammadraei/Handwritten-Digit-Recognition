@@ -99,36 +99,33 @@ for i in range(count_epoch):
         ga2 = np.zeros((16, 1))
         ga1 = np.zeros((16, 1))
         
-        for b in range(batch_size):
-            main_mtx = np.asarray(train_set[i * batch_size + b][0])
+        for j in range(batch_size):
+            element_num = i * batch_size + j
+            main_mtx = np.asarray(train_set[element_num][0])
             z1 = w1 @ main_mtx + b1
             mtx2 = sigmoid(z1)
             z2 = w2 @ mtx2 + b2
             mtx3 = sigmoid(z2) 
             z3 = w3 @ mtx3 + b3
             f_mtx = sigmoid(z3) 
-
-            cost += sum((f_mtx - train_set[i * batch_size + b][1]) ** 2)
-
-            y = train_set[i * batch_size + b][1]
-
-            gw3 += 2 * (f_mtx - y) * sigmoid_deriv(z3) @ np.transpose(mtx3)
-            gw2 += ga2 * sigmoid_deriv(z2) @ np.transpose(mtx2)
-            gw1 += ga1 * sigmoid_deriv(z2) @ np.transpose(main_mtx)
-
             
-            ga2 = np.transpose(w3) @ (2 * (f_mtx - y) * sigmoid_deriv(z3))
-            ga1 = np.transpose(w2) @ (ga2 * sigmoid_deriv(z2))
+            cost += sum(pow((f_mtx - train_set[element_num][1]), 2))
 
+            y = train_set[element_num][1]
+
+            gw3 += (2 * (f_mtx - y) * sigmoid_deriv(z3)) @ np.transpose(mtx3)
             gb3 += (2 * (f_mtx - y) * sigmoid_deriv(z3))
+            ga2 = np.transpose(w3) @ (2 * (f_mtx - y) * sigmoid_deriv(z3))
+            gw2 += (ga2 * sigmoid_deriv(z2)) @ np.transpose(mtx2)
             gb2 += (ga2 * sigmoid_deriv(z2))
-            gb1 += (ga1 * sigmoid_deriv(z2))
-
+            ga1 = np.transpose(w2) @ (ga2 * sigmoid_deriv(z2))
+            gw1 += (ga1 * sigmoid_deriv(z1) @ np.transpose(main_mtx))
+            gb1 += (ga1 * sigmoid_deriv(z1))
 
             max_value = np.max(f_mtx)
             index_max_value = np.argmax(f_mtx)
 
-            if train_set[i * batch_size + b][1][index_max_value] == 1:
+            if train_set[element_num][1][index_max_value] == 1:
                 accuracy += 1
 
         w1 = w1 - (learning_rate * (gw1 / batch_size))

@@ -17,9 +17,11 @@ def sigmoid_deriv(seq):
     return sigmoid(seq) * (1 - sigmoid(seq))
 
 
-def multiply_mtx(w, mtx, b):
-    result = w @ mtx + b
-    return result
+def show_cost(step_number, epoch_count, costs):
+    plt.title("Step" + str(step_number))
+    x = np.arange(0,epoch_count)
+    plt.plot(x, costs)
+    plt.savefig(f"/Users/amiroo/Desktop/Handwritten-Digit-Recognition/costs/cost{step_number}.png")
 
 
 # Reading The Train Set
@@ -78,8 +80,9 @@ b3 = np.zeros((10,1))
 
 batch_size = 10
 learning_rate = 1
-count_epoch = 200
+count_epoch = 20
 
+costs = []
 
 for i in range(count_epoch):
 
@@ -87,10 +90,10 @@ for i in range(count_epoch):
     cost = 0
 
     np.random.shuffle(train_set)
-    b_size = int(100 / batch_size)
+    b_count = int(100 / batch_size)
 
-    for i in range(b_size):
-        gw1 = np.zeros((16, 784))
+    for i in range(b_count):
+        gw1 = np.zeros((16, 28*28))
         gw2 = np.zeros((16, 16))
         gw3 = np.zeros((10, 16))
         gb1 = np.zeros((16, 1))
@@ -99,8 +102,8 @@ for i in range(count_epoch):
         ga2 = np.zeros((16, 1))
         ga1 = np.zeros((16, 1))
         
-        for j in range(batch_size):
-            element_num = i * batch_size + j
+        for w in range(batch_size):
+            element_num = i * batch_size + w
             main_mtx = np.asarray(train_set[element_num][0])
             z1 = w1 @ main_mtx + b1
             mtx2 = sigmoid(z1)
@@ -116,20 +119,27 @@ for i in range(count_epoch):
             for j in range(10):
                 for k in range(16):
                     gw3[j, k] += mtx3[k, 0] * sigmoid_deriv(z3[j, 0]) * (2 * f_mtx[j, 0] - 2 * y[j, 0])
+
             gb3 += (2 * (f_mtx - y) * sigmoid_deriv(z3))
+
             for k in range(16):
                 for j in range(10):
                     ga2[k, 0] += w3[j, k] * sigmoid_deriv(z3[j, 0]) * (2 * f_mtx[j, 0] - 2 * y[j, 0])
+
             for j in range(10):
                 for k in range(16):
                     gw2[j, k] += mtx2[k, 0] * sigmoid_deriv(z2[j, 0]) * (2 * mtx3[j, 0] - 2 * y[j, 0])
+
             gb2 += (ga2 * sigmoid_deriv(z2))
+
             for k in range(16):
                 for j in range(10):
                     ga1[k, 0] += w2[j, k] * sigmoid_deriv(z2[j, 0]) * (2 * mtx3[j, 0] - 2 * y[j, 0])
+                    
             for j in range(10):
                 for k in range(16):
                     gw1[j, k] += main_mtx[k, 0] * sigmoid_deriv(z1[j, 0]) * (2 * mtx2[j, 0] - 2 * y[j, 0])
+
             gb1 += (ga1 * sigmoid_deriv(z2))
 
 
@@ -147,7 +157,7 @@ for i in range(count_epoch):
         b2 = b2 - (learning_rate * (gb2 / batch_size))
         b3 = b3 - (learning_rate * (gb3 / batch_size))
 
-    # costs.append(cost/100)
-    #print("Accuracy after epoch.", n+1, "is", accuracy/100, "%")
+    costs.append(cost/100)
 
 print(f"Accuracy is: {accuracy}%")
+show_cost(3, count_epoch, costs)

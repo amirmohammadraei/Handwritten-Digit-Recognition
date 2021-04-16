@@ -143,7 +143,69 @@ for i in range(count_epoch):
         b3 = b3 - (learning_rate * (gb3 / batch_size))
 
     costs.append(cost/60000)
-    #print("Accuracy after epoch.", n+1, "is", accuracy/100, "%")
 
 print(f"Accuracy is: {(accuracy/60000) * 100}%")
 show_cost(5, count_epoch, costs)
+
+
+
+costs = []
+for i in range(count_epoch):
+
+    accuracy = 0
+    cost = 0
+
+    # np.random.shuffle(train_set)
+    b_size = int(10000 / batch_size)
+
+    for i in range(b_size):
+        gw1 = np.zeros((16, 784))
+        gw2 = np.zeros((16, 16))
+        gw3 = np.zeros((10, 16))
+        gb1 = np.zeros((16, 1))
+        gb2 = np.zeros((16, 1))
+        gb3 = np.zeros((10, 1))
+        ga2 = np.zeros((16, 1))
+        ga1 = np.zeros((16, 1))
+        
+        for q in range(batch_size):
+            element_num = i * batch_size + q
+            main_mtx = np.asarray(train_set[element_num][0])
+            z1 = w1 @ main_mtx + b1
+            mtx2 = sigmoid(z1)
+            z2 = w2 @ mtx2 + b2
+            mtx3 = sigmoid(z2) 
+            z3 = w3 @ mtx3 + b3
+            f_mtx = sigmoid(z3) 
+            
+            cost += sum(pow((f_mtx - train_set[element_num][1]), 2))
+
+            y = train_set[element_num][1]
+
+            gw3 += (2 * (f_mtx - y) * sigmoid_deriv(z3)) @ np.transpose(mtx3)
+            gb3 += (2 * (f_mtx - y) * sigmoid_deriv(z3))
+            ga2 = np.transpose(w3) @ (2 * (f_mtx - y) * sigmoid_deriv(z3))
+            gw2 += (ga2 * sigmoid_deriv(z2)) @ np.transpose(mtx2)
+            gb2 += (ga2 * sigmoid_deriv(z2))
+            ga1 = np.transpose(w2) @ (ga2 * sigmoid_deriv(z2))
+            gw1 += (ga1 * sigmoid_deriv(z1) @ np.transpose(main_mtx))
+            gb1 += (ga1 * sigmoid_deriv(z1))
+
+            max_value = np.max(f_mtx)
+            index_max_value = np.argmax(f_mtx)
+
+            if train_set[element_num][1][index_max_value] == 1:
+                accuracy += 1
+
+        w1 = w1 - (learning_rate * (gw1 / batch_size))
+        w2 = w2 - (learning_rate * (gw2 / batch_size))
+        w3 = w3 - (learning_rate * (gw3 / batch_size))
+        
+        b1 = b1 - (learning_rate * (gb1 / batch_size))
+        b2 = b2 - (learning_rate * (gb2 / batch_size))
+        b3 = b3 - (learning_rate * (gb3 / batch_size))
+
+    costs.append(cost/10000)
+
+print(f"Accuracy is: {(accuracy/10000) * 100}%")
+show_cost("5 test", count_epoch, costs)

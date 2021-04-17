@@ -1,1 +1,1 @@
-# Handwritten-Digit-Recognition
+First project of course Computational Intelligence

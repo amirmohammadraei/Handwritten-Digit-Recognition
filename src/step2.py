@@ -88,6 +88,7 @@ for i in range(0, 100):
 
     if train_set[i][1][index_max_value] == 1:
         accuracy += 1
+        print(i)
 
 
 print(f"Accuracy is: {accuracy}%")

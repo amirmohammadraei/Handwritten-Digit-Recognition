@@ -2,5 +2,5 @@
 
 <img src='costs/cost5test.png'>
 
-<p>Train accuracy: </p>
-<p>Test accuracy: </p>
+<p>Train accuracy: 90%</p>
+<p>Test accuracy: 91.25%</p>

@@ -139,7 +139,6 @@ for i in range(count_epoch):
         b3 = b3 - (learning_rate * (gb3 / batch_size))
 
     costs.append(cost/100)
-    #print("Accuracy after epoch.", n+1, "is", accuracy/100, "%")
 
 print(f"Accuracy is: {accuracy}%")
 show_cost(4, count_epoch, costs)

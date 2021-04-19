@@ -9,8 +9,7 @@ def show_image(img):
 
 
 def sigmoid(seq):
-    result = 1 / (1 + np.exp(-seq))
-    return result
+    return 1 / (1 + np.exp(-seq))
 
 
 def sigmoid_deriv(seq):
@@ -18,8 +17,7 @@ def sigmoid_deriv(seq):
 
 
 def multiply_mtx(w, mtx, b):
-    result = w @ mtx + b
-    return result
+    return w @ mtx + b
 
 
 def show_cost(step_number, epoch_count, costs):
@@ -38,15 +36,15 @@ train_labels_file = open('/Users/amiroo/Desktop/Handwritten-Digit-Recognition/sa
 train_labels_file.seek(8)
 
 train_set = []
-for n in range(num_of_train_images):
+for _ in range(num_of_train_images):
     image = np.zeros((784, 1))
     for i in range(784):
         image[i, 0] = int.from_bytes(train_images_file.read(1), 'big') / 256
-    
+
     label_value = int.from_bytes(train_labels_file.read(1), 'big')
     label = np.zeros((10, 1))
     label[label_value, 0] = 1
-    
+
     train_set.append((image, label))
 
 
@@ -61,15 +59,15 @@ num_of_test_images = int.from_bytes(test_images_file.read(4), 'big')
 test_images_file.seek(16)
 
 test_set = []
-for n in range(num_of_test_images):
+for _ in range(num_of_test_images):
     image = np.zeros((784, 1))
     for i in range(784):
         image[i] = int.from_bytes(test_images_file.read(1), 'big') / 256
-    
+
     label_value = int.from_bytes(test_labels_file.read(1), 'big')
     label = np.zeros((10, 1))
     label[label_value, 0] = 1
-    
+
     test_set.append((image, label))
 
 
@@ -104,7 +102,7 @@ for i in range(count_epoch):
         gb3 = np.zeros((10, 1))
         ga2 = np.zeros((16, 1))
         ga1 = np.zeros((16, 1))
-        
+
         for q in range(batch_size):
             element_num = i * batch_size + q
             main_mtx = np.asarray(train_set[element_num][0])
@@ -114,7 +112,7 @@ for i in range(count_epoch):
             mtx3 = sigmoid(z2) 
             z3 = w3 @ mtx3 + b3
             f_mtx = sigmoid(z3) 
-            
+
             cost += sum(pow((f_mtx - train_set[element_num][1]), 2))
 
             y = train_set[element_num][1]
@@ -137,7 +135,7 @@ for i in range(count_epoch):
         w1 = w1 - (learning_rate * (gw1 / batch_size))
         w2 = w2 - (learning_rate * (gw2 / batch_size))
         w3 = w3 - (learning_rate * (gw3 / batch_size))
-        
+
         b1 = b1 - (learning_rate * (gb1 / batch_size))
         b2 = b2 - (learning_rate * (gb2 / batch_size))
         b3 = b3 - (learning_rate * (gb3 / batch_size))
@@ -167,7 +165,7 @@ for i in range(count_epoch):
         gb3 = np.zeros((10, 1))
         ga2 = np.zeros((16, 1))
         ga1 = np.zeros((16, 1))
-        
+
         for q in range(batch_size):
             element_num = i * batch_size + q
             main_mtx = np.asarray(train_set[element_num][0])
@@ -177,7 +175,7 @@ for i in range(count_epoch):
             mtx3 = sigmoid(z2) 
             z3 = w3 @ mtx3 + b3
             f_mtx = sigmoid(z3) 
-            
+
             cost += sum(pow((f_mtx - train_set[element_num][1]), 2))
 
             y = train_set[element_num][1]
@@ -200,7 +198,7 @@ for i in range(count_epoch):
         w1 = w1 - (learning_rate * (gw1 / batch_size))
         w2 = w2 - (learning_rate * (gw2 / batch_size))
         w3 = w3 - (learning_rate * (gw3 / batch_size))
-        
+
         b1 = b1 - (learning_rate * (gb1 / batch_size))
         b2 = b2 - (learning_rate * (gb2 / batch_size))
         b3 = b3 - (learning_rate * (gb3 / batch_size))

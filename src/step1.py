@@ -10,8 +10,7 @@ def show_image(img):
 
 
 def sigmoid(seq):
-    result = 1 / (1 + math.exp(-x))
-    return result
+    return 1 / (1 + math.exp(-x))
 
 
 # Reading The Train Set
@@ -24,15 +23,15 @@ train_labels_file = open('/Users/amiroo/Desktop/Handwritten-Digit-Recognition/sa
 train_labels_file.seek(8)
 
 train_set = []
-for n in range(num_of_train_images):
+for _ in range(num_of_train_images):
     image = np.zeros((784, 1))
     for i in range(784):
         image[i, 0] = int.from_bytes(train_images_file.read(1), 'big') / 256
-    
+
     label_value = int.from_bytes(train_labels_file.read(1), 'big')
     label = np.zeros((10, 1))
     label[label_value, 0] = 1
-    
+
     train_set.append((image, label))
 
 
@@ -47,15 +46,15 @@ num_of_test_images = int.from_bytes(test_images_file.read(4), 'big')
 test_images_file.seek(16)
 
 test_set = []
-for n in range(num_of_test_images):
+for _ in range(num_of_test_images):
     image = np.zeros((784, 1))
     for i in range(784):
         image[i] = int.from_bytes(test_images_file.read(1), 'big') / 256
-    
+
     label_value = int.from_bytes(test_labels_file.read(1), 'big')
     label = np.zeros((10, 1))
     label[label_value, 0] = 1
-    
+
     test_set.append((image, label))
 
 

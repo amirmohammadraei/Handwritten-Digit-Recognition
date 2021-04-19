@@ -88,7 +88,6 @@ for i in range(count_epoch):
     accuracy = 0
     cost = 0
 
-    # np.random.shuffle(train_set)
     b_size = int(100 / batch_size)
 
     for i in range(b_size):
